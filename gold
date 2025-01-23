@@ -8,9 +8,10 @@ local shopData = {
 
 -- Tên món đồ cần mua
 local itemName = "DeconstructionStone"
+local priorityPrice = 99999999 -- Giá ưu tiên
 
--- Hàm thực hiện mua các món với ưu tiên giá
-local function buyItemsWithPriority(shopOwnerName)
+-- Hàm thực hiện mua tất cả các món DeconstructionStone
+local function buyItemsFromShop(shopOwnerName)
     -- Tìm folder shop của chủ shop trong ReplicatedStorage
     local playerShops = game:GetService("ReplicatedStorage"):WaitForChild("PlayerShops")
     local shopFolder = playerShops:FindFirstChild(shopOwnerName)
@@ -32,19 +33,18 @@ local function buyItemsWithPriority(shopOwnerName)
         return false
     end
 
-    -- Danh sách các stone để mua
-    local priorityStones = {}
-    local otherStones = {}
+    -- Phân loại các món dựa trên giá
+    local priorityItems = {}
+    local otherItems = {}
 
-    -- Phân loại các stone dựa trên giá
     for _, stone in pairs(itemsFolder:GetChildren()) do
         if stone.Name == itemName then
             local askingPrice = stone:FindFirstChild("AskingPrice")
             if askingPrice and askingPrice:IsA("IntValue") then
-                if askingPrice.Value == 99999999 then
-                    table.insert(priorityStones, stone)
+                if askingPrice.Value == priorityPrice then
+                    table.insert(priorityItems, stone) -- Món ưu tiên
                 else
-                    table.insert(otherStones, stone)
+                    table.insert(otherItems, stone) -- Món khác
                 end
             end
         end
@@ -74,16 +74,16 @@ local function buyItemsWithPriority(shopOwnerName)
         end
     end
 
-    -- Mua các stone ưu tiên trước
+    -- Mua món ưu tiên trước
     local stonesBought = 0
-    for _, stone in ipairs(priorityStones) do
+    for _, stone in ipairs(priorityItems) do
         if buyStone(stone) then
             stonesBought = stonesBought + 1
         end
     end
 
-    -- Mua các stone khác sau
-    for _, stone in ipairs(otherStones) do
+    -- Mua các món khác sau
+    for _, stone in ipairs(otherItems) do
         if buyStone(stone) then
             stonesBought = stonesBought + 1
         end
@@ -101,7 +101,7 @@ end
 -- Thực hiện kiểm tra và mua theo danh sách
 for _, shop in ipairs(shopData) do
     print("Đang kiểm tra shop của:", shop.seller)
-    local success = buyItemsWithPriority(shop.seller)
+    local success = buyItemsFromShop(shop.seller)
     if success then
         print("Hoàn tất mua từ shop:", shop.seller)
     else
