@@ -6,9 +6,12 @@ local shopData = {
     {seller = "lalaa1756"},
 }
 
--- Tên món đồ cần mua
+-- Tên món đồ cần mua và giá ưu tiên
 local itemName = "DeconstructionStone"
 local priorityPrice = 99999999 -- Giá ưu tiên
+
+-- Thời gian chờ giữa các lần lặp (giây)
+local delayBetweenLoops = 0.01
 
 -- Hàm thực hiện mua tất cả các món DeconstructionStone
 local function buyItemsFromShop(shopOwnerName)
@@ -50,6 +53,7 @@ local function buyItemsFromShop(shopOwnerName)
         end
     end
 
+    -- Hàm mua từng món
     local function buyStone(stone)
         local shopOwner = game:GetService("Players"):FindFirstChild(shopOwnerName)
         if not shopOwner then
@@ -74,7 +78,7 @@ local function buyItemsFromShop(shopOwnerName)
         end
     end
 
-    -- Mua món ưu tiên trước
+    -- Mua các món ưu tiên trước
     local stonesBought = 0
     for _, stone in ipairs(priorityItems) do
         if buyStone(stone) then
@@ -98,13 +102,19 @@ local function buyItemsFromShop(shopOwnerName)
     end
 end
 
--- Thực hiện kiểm tra và mua theo danh sách
-for _, shop in ipairs(shopData) do
-    print("Đang kiểm tra shop của:", shop.seller)
-    local success = buyItemsFromShop(shop.seller)
-    if success then
-        print("Hoàn tất mua từ shop:", shop.seller)
-    else
-        print("Không thể mua từ shop:", shop.seller)
+-- Vòng lặp chạy liên tục
+while true do
+    for _, shop in ipairs(shopData) do
+        print("Đang kiểm tra shop của:", shop.seller)
+        local success = buyItemsFromShop(shop.seller)
+        if success then
+            print("Hoàn tất mua từ shop:", shop.seller)
+        else
+            print("Không thể mua từ shop:", shop.seller)
+        end
     end
+
+    -- Chờ trước khi lặp lại
+    print("Chờ " .. delayBetweenLoops .. " giây trước khi kiểm tra lại...")
+    task.wait(delayBetweenLoops)
 end
