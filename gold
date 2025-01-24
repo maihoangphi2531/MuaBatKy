@@ -19,20 +19,17 @@ local function buyItemsFromShop(shopOwnerName)
     local playerShops = game:GetService("ReplicatedStorage"):WaitForChild("PlayerShops")
     local shopFolder = playerShops:FindFirstChild(shopOwnerName)
     if not shopFolder then
-        warn("Không tìm thấy shop của:", shopOwnerName)
         return false
     end
 
     -- Truy cập folder SellShop và Items
     local sellShopFolder = shopFolder:FindFirstChild("SellShop")
     if not sellShopFolder then
-        warn("Không tìm thấy SellShop trong shop của:", shopOwnerName)
         return false
     end
 
     local itemsFolder = sellShopFolder:FindFirstChild("Items")
     if not itemsFolder then
-        warn("Không tìm thấy folder Items trong SellShop của:", shopOwnerName)
         return false
     end
 
@@ -57,11 +54,10 @@ local function buyItemsFromShop(shopOwnerName)
     local function buyStone(stone)
         local shopOwner = game:GetService("Players"):FindFirstChild(shopOwnerName)
         if not shopOwner then
-            warn("Không tìm thấy player có tên:", shopOwnerName)
             return false
         end
 
-        local success, errorMessage = pcall(function()
+        local success = pcall(function()
             game:GetService("ReplicatedStorage")
                 :WaitForChild("Shared")
                 :WaitForChild("Shop")
@@ -69,13 +65,7 @@ local function buyItemsFromShop(shopOwnerName)
                 :InvokeServer(shopOwner, stone)
         end)
 
-        if success then
-            print("Mua thành công DeconstructionStone từ shop của:", shopOwnerName, "với giá:", stone:FindFirstChild("AskingPrice").Value)
-            return true
-        else
-            warn("Gặp lỗi khi mua từ shop của:", shopOwnerName, "- Lỗi:", errorMessage)
-            return false
-        end
+        return success
     end
 
     -- Mua các món ưu tiên trước
@@ -93,28 +83,15 @@ local function buyItemsFromShop(shopOwnerName)
         end
     end
 
-    if stonesBought == 0 then
-        warn("Không tìm thấy DeconstructionStone nào trong shop của:", shopOwnerName)
-        return false
-    else
-        print("Đã mua thành công", stonesBought, "DeconstructionStone từ shop của:", shopOwnerName)
-        return true
-    end
+    return stonesBought > 0
 end
 
 -- Vòng lặp chạy liên tục
 while true do
     for _, shop in ipairs(shopData) do
-        print("Đang kiểm tra shop của:", shop.seller)
-        local success = buyItemsFromShop(shop.seller)
-        if success then
-            print("Hoàn tất mua từ shop:", shop.seller)
-        else
-            print("Không thể mua từ shop:", shop.seller)
-        end
+        buyItemsFromShop(shop.seller)
     end
 
     -- Chờ trước khi lặp lại
-    print("Chờ " .. delayBetweenLoops .. " giây trước khi kiểm tra lại...")
     task.wait(delayBetweenLoops)
 end
