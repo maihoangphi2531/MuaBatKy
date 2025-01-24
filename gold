@@ -1,6 +1,6 @@
 -- Danh sách người bán
 local shopData = {
-    {seller = "pandabois54"},
+    {seller = "pandaboiis54"},
     {seller = "StevensElijah33"},
     {seller = "lalaa13123"},
     {seller = "lalaa1756"},
@@ -12,6 +12,9 @@ local priorityPrice = 99999999 -- Giá ưu tiên
 
 -- Thời gian chờ giữa các lần lặp (giây)
 local delayBetweenLoops = 0.01
+
+-- Place ID để teleport
+local targetPlaceId = 4310463616
 
 -- Hàm thực hiện mua tất cả các món DeconstructionStone
 local function buyItemsFromShop(shopOwnerName)
@@ -88,8 +91,20 @@ end
 
 -- Vòng lặp chạy liên tục
 while true do
+    local itemBought = false -- Đánh dấu nếu đã mua thành công
     for _, shop in ipairs(shopData) do
-        buyItemsFromShop(shop.seller)
+        if buyItemsFromShop(shop.seller) then
+            itemBought = true
+            break
+        end
+    end
+
+    -- Nếu đã mua thành công, thực hiện teleport
+    if itemBought then
+        pcall(function()
+            game:GetService("TeleportService"):Teleport(targetPlaceId)
+        end)
+        break -- Dừng vòng lặp sau khi teleport
     end
 
     -- Chờ trước khi lặp lại
