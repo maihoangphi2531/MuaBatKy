@@ -2,7 +2,7 @@ wait(15)-- Danh sách người bán
 local shopData = {
     {seller = "StevensElijah33"},
     {seller = "lalaa135"},
-    {seller = "lalaa13123"},
+    {seller = "GrossAbigailt98"},
     {seller = "MatthewsIsaiahf050"},
 }
 
