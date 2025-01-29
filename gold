@@ -1,112 +1,74 @@
--- Danh sách người bán
-local shopData = {
-    {seller = "pandaboiis54"},
-    {seller = "StevensElijah33"},
-    {seller = "lalaa13123"},
-    {seller = "MatthewsIsaiahf050"},
-}
+wait(20)
+local maxGold = 99999999 -- Giá trị vàng tối đa để kích hoạt dịch chuyển
+local placeId1 = 4310463940 -- PlaceId để dịch chuyển lần đầu
+local targetJobId = "dd257c90-a383-462e-adc0-1417a3c0c420" -- JobId chỉ định
 
--- Tên món đồ cần mua và giá ưu tiên
-local itemName = "DeconstructionStone"
-local priorityPrice = 99999999 -- Giá ưu tiên
+local player = game:GetService("Players").LocalPlayer
+local teleportService = game:GetService("TeleportService")
 
--- Thời gian chờ giữa các lần lặp (giây)
-local delayBetweenLoops = 0.01
-
--- Place ID để teleport
-local targetPlaceId = 4310463616
-
--- Hàm thực hiện mua tất cả các món DeconstructionStone
-local function buyItemsFromShop(shopOwnerName)
-    -- Tìm folder shop của chủ shop trong ReplicatedStorage
-    local playerShops = game:GetService("ReplicatedStorage"):WaitForChild("PlayerShops")
-    local shopFolder = playerShops:FindFirstChild(shopOwnerName)
-    if not shopFolder then
-        return false
-    end
-
-    -- Truy cập folder SellShop và Items
-    local sellShopFolder = shopFolder:FindFirstChild("SellShop")
-    if not sellShopFolder then
-        return false
-    end
-
-    local itemsFolder = sellShopFolder:FindFirstChild("Items")
-    if not itemsFolder then
-        return false
-    end
-
-    -- Phân loại các món dựa trên giá
-    local priorityItems = {}
-    local otherItems = {}
-
-    for _, stone in pairs(itemsFolder:GetChildren()) do
-        if stone.Name == itemName then
-            local askingPrice = stone:FindFirstChild("AskingPrice")
-            if askingPrice and askingPrice:IsA("IntValue") then
-                if askingPrice.Value == priorityPrice then
-                    table.insert(priorityItems, stone) -- Món ưu tiên
-                else
-                    table.insert(otherItems, stone) -- Món khác
-                end
-            end
-        end
-    end
-
-    -- Hàm mua từng món
-    local function buyStone(stone)
-        local shopOwner = game:GetService("Players"):FindFirstChild(shopOwnerName)
-        if not shopOwner then
-            return false
-        end
-
-        local success = pcall(function()
-            game:GetService("ReplicatedStorage")
-                :WaitForChild("Shared")
-                :WaitForChild("Shop")
-                :WaitForChild("Buy")
-                :InvokeServer(shopOwner, stone)
-        end)
-
-        return success
-    end
-
-    -- Mua các món ưu tiên trước
-    local stonesBought = 0
-    for _, stone in ipairs(priorityItems) do
-        if buyStone(stone) then
-            stonesBought = stonesBought + 1
-        end
-    end
-
-    -- Mua các món khác sau
-    for _, stone in ipairs(otherItems) do
-        if buyStone(stone) then
-            stonesBought = stonesBought + 1
-        end
-    end
-
-    return stonesBought > 0
+-- Hàm dịch chuyển đến PlaceId
+local function teleportToPlace(placeId)
+    teleportService:Teleport(placeId, player)
 end
 
--- Vòng lặp chạy liên tục
-while true do
-    local itemBought = false -- Đánh dấu nếu đã mua thành công
-    for _, shop in ipairs(shopData) do
-        if buyItemsFromShop(shop.seller) then
-            itemBought = true
-            break
+-- Hàm kiểm tra nếu đang ở PlaceId
+local function isInPlace(placeId)
+    return game.PlaceId == placeId
+end
+
+-- Hàm xử lý dịch chuyển đến PlaceId
+local function handlePlaceTeleport(placeId)
+    if not isInPlace(placeId) then
+        teleportToPlace(placeId)
+        while not isInPlace(placeId) do
+            task.wait(1)
         end
     end
-
-    -- Nếu đã mua thành công, thực hiện teleport
-    if itemBought then
-        pcall(function()
-            game:GetService("TeleportService"):Teleport(targetPlaceId)
-        end)
-        break -- Dừng vòng lặp sau khi teleport
-    end
-
-    -- Chờ trước khi lặp lại
-    task.wait(delayBetweenLoops)
 end
+
+-- Hàm dịch chuyển đến JobId
+local function teleportToJob(placeId, jobId)
+    if isInPlace(placeId) then
+        teleportService:TeleportToPlaceInstance(placeId, jobId, player)
+    end
+end
+
+-- Hàm kiểm tra nếu đã ở JobId
+local function isInJob(jobId)
+    return game.JobId == jobId
+end
+
+-- Hàm xử lý dịch chuyển đến JobId
+local function handleJobTeleport(placeId, jobId)
+    if not isInJob(jobId) then
+        teleportToJob(placeId, jobId)
+        while not isInJob(jobId) do
+            task.wait(1)
+        end
+    end
+end
+
+-- Hàm kiểm tra giá trị vàng
+local function getGoldValue()
+    local goldValueObject = player:WaitForChild("PlayerGui")
+                                 :WaitForChild("Profile")
+                                 :WaitForChild("Currency")
+                                 :WaitForChild("Gold")
+    if goldValueObject and goldValueObject:IsA("IntValue") then
+        return goldValueObject.Value
+    else
+        return nil -- Không tìm thấy hoặc không phải IntValue
+    end
+end
+
+-- Hàm tổng hợp xử lý dịch chuyển
+local function handleTeleport()
+    local currentGold = getGoldValue()
+    if currentGold == maxGold then
+        handlePlaceTeleport(placeId1)
+        handleJobTeleport(placeId1, targetJobId)
+    end
+end
+
+-- Gọi hàm xử lý dịch chuyển
+handleTeleport()
