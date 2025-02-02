@@ -1,7 +1,7 @@
--- Thời gian chờ giữa các vòng lặp (giây):
+-- Thời gian chờ giữa các vòng lặp (giây)
 local LOOP_INTERVAL = 30
 
--- Danh sách người bán:
+-- Danh sách người bán
 local shopData = {
     {seller = "StevensElijah33"},
     {seller = "KimOscar76"},
@@ -10,38 +10,27 @@ local shopData = {
     {seller = "MatthewsIsaiahf050"},
 }
 
--- Tên món đồ cần mua:
+-- Tên món đồ cần mua
 local itemName = "DeconstructionStone"
-
--- Tên file để lưu log mua hàng:
-local logFileName = "shop_buy_log.txt"
-
--- Hàm ghi log ra file:
-local function logToFile(msg)
-    local timeStamp = os.date("[%Y-%m-%d %H:%M:%S]")
-    local finalMsg  = string.format("%s %s", timeStamp, msg)
-    print(finalMsg)                  -- In ra console
-    appendfile(logFileName, finalMsg.."\n") -- Thêm vào file
-end
 
 -- Hàm mua tất cả DeconstructionStone từ một shop
 local function buyAllItemsFromShop(shopOwnerName)
     local playerShops = game:GetService("ReplicatedStorage"):WaitForChild("PlayerShops")
     local shopFolder = playerShops:FindFirstChild(shopOwnerName)
     if not shopFolder then
-        logToFile("Không tìm thấy shop của: "..shopOwnerName)
+        print("Không tìm thấy shop của:", shopOwnerName)
         return false
     end
 
     local sellShopFolder = shopFolder:FindFirstChild("SellShop")
     if not sellShopFolder then
-        logToFile("Không tìm thấy SellShop trong shop của: "..shopOwnerName)
+        print("Không tìm thấy SellShop trong shop:", shopOwnerName)
         return false
     end
 
     local itemsFolder = sellShopFolder:FindFirstChild("Items")
     if not itemsFolder then
-        logToFile("Không tìm thấy folder Items trong SellShop của: "..shopOwnerName)
+        print("Không tìm thấy Items trong SellShop:", shopOwnerName)
         return false
     end
 
@@ -50,7 +39,7 @@ local function buyAllItemsFromShop(shopOwnerName)
         if stone.Name == itemName then
             local shopOwnerPlayer = game:GetService("Players"):FindFirstChild(shopOwnerName)
             if not shopOwnerPlayer then
-                logToFile("Không tìm thấy player có tên: "..shopOwnerName)
+                print("Không tìm thấy player có tên:", shopOwnerName)
                 return false
             end
 
@@ -64,43 +53,37 @@ local function buyAllItemsFromShop(shopOwnerName)
 
             if success then
                 stonesBought = stonesBought + 1
-                logToFile(string.format("Mua thành công 1 viên %s từ shop của %s", itemName, shopOwnerName))
+                print(string.format("Mua thành công 1 viên %s từ shop: %s", itemName, shopOwnerName))
             else
-                logToFile(string.format(
-                    "Gặp lỗi khi mua từ shop của %s - Lỗi: %s",
-                    shopOwnerName, tostring(errorMessage)
-                ))
+                print(string.format("Gặp lỗi khi mua từ shop: %s - %s", shopOwnerName, errorMessage))
             end
         end
     end
 
     if stonesBought == 0 then
-        logToFile("Không tìm thấy "..itemName.." nào trong shop của: "..shopOwnerName)
+        print("Không tìm thấy", itemName, "trong shop:", shopOwnerName)
         return false
     else
-        logToFile(string.format(
-            "Đã mua thành công %d viên %s từ shop của: %s",
-            stonesBought, itemName, shopOwnerName
-        ))
+        print(string.format("Đã mua %d viên %s từ shop: %s", stonesBought, itemName, shopOwnerName))
         return true
     end
 end
 
 -- Vòng lặp chạy liên tục
 while true do
-    logToFile("Bắt đầu vòng kiểm tra mua DeconstructionStone...")
+    print("Bắt đầu vòng mua items...")
     
     -- Duyệt qua danh sách shop
     for _, shop in ipairs(shopData) do
-        logToFile("Đang kiểm tra shop của: "..shop.seller)
+        print("Kiểm tra shop của:", shop.seller)
         local success = buyAllItemsFromShop(shop.seller)
         if success then
-            logToFile("Hoàn tất mua từ shop: "..shop.seller)
+            print("Hoàn tất mua từ shop:", shop.seller)
         else
-            logToFile("Không thể mua từ shop: "..shop.seller)
+            print("Không thể mua từ shop:", shop.seller)
         end
     end
 
-    logToFile("Kết thúc vòng, chờ "..LOOP_INTERVAL.." giây trước khi mua lại...\n")
+    print("Kết thúc vòng. Chờ", LOOP_INTERVAL, "giây để lặp lại...\n")
     task.wait(LOOP_INTERVAL)
 end
