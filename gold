@@ -10,6 +10,8 @@ local shopData = {
     {seller = "RustJessica012"},
     {seller = "FarmerColton9"},
     {seller = "maximumhocngu"},
+    {seller = "HuberAnne8"},
+    {seller = "MoranDuck789"},
     {seller = "MatthewsIsaiahf050"},
 }
 
