@@ -1,5 +1,5 @@
 -- Thời gian chờ giữa các vòng lặp (giây)
-local LOOP_INTERVAL = 30
+local LOOP_INTERVAL = 1
 
 -- Danh sách người bán
 local shopData = {
