@@ -1,3 +1,9 @@
+-- Kiểm tra PlaceId trước khi chạy
+if game.PlaceId ~= 4310463940 then
+    print("Script chỉ chạy trong PlaceId 4310463940. Dừng script.")
+    return
+end
+
 -- Thời gian chờ giữa các vòng lặp (giây)
 local LOOP_INTERVAL = 1
 
