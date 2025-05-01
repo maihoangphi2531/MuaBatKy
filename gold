@@ -21,6 +21,9 @@ local shopData = {
     {seller = "FarmerColton9"},
     {seller = "BrightIsabella680"},
     {seller = "HuberAnne8"},
+    {seller = "RosyAimee8"},
+    {seller = "YorkPedro221"},
+    {seller = "ShafferTodd3"},
     {seller = "AquamarineFrank268"},
     {seller = "DavilaSummer374"},
 }
