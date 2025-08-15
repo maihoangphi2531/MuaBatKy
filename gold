@@ -26,6 +26,17 @@ local shopData = {
     {seller = "ShafferTodd3"},
     {seller = "AquamarineFrank268"},
     {seller = "DavilaSummer374"},
+    {seller = "SullivanJeremy5"},
+    {seller = "WilkersonJulian1"},
+    {seller = "StevensPatricia9"},
+    {seller = "GalvanSean71"},
+    {seller = "SaffronAnthony288"},
+    {seller = "PughLuis34"},
+    {seller = "JonesJay69"},
+    {seller = "SonicCook1e5"},
+    {seller = "Cherry6Cook1e"},
+    {seller = "BlossomRose204"},
+    {seller = "Buttercup_jelly03"},
 }
 
 -- Tên món đồ cần mua
