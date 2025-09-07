@@ -9,6 +9,7 @@ local LOOP_INTERVAL = 1
 
 -- Danh sách người bán
 local shopData = {
+    {seller = "maximumhocngu"},
     {seller = "HuberShelia8"},
     {seller = "DukeLouis38"},
     {seller = "RoseJulia18"},
