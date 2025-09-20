@@ -38,7 +38,7 @@ local shopData = {
     {seller = "PhamGreg991"},
     {seller = "BartonStacy7"},
     {seller = "BrightJeff49"},
-    {seller = "AppleCook1e7"},
+    {seller = "GoldenCheeseCook1e3"},
 }
 
 -- Tên món đồ cần mua
