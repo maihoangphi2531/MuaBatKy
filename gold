@@ -42,6 +42,22 @@ local shopData = {
     {seller = "BrendaLyons665"},
     {seller = "XavierGoldenrod5963"},
     {seller = "MooBanana0102"},
+    {seller = "Bubblestar505"},
+    {seller = "Puffshroom2002"},
+    {seller = "EDD_0505"},
+    {seller = "PattyStraw"},
+    {seller = "KrispyKreme38383"},
+    {seller = "DunkinDonuts57575"},
+    {seller = "CrimsonCoralCook1e"},
+    {seller = "BlueBerryCook1e2"},
+    {seller = "GoldenCheeseCook1e3"},
+    {seller = "Onion8Cook1e"},
+    {seller = "SonicCook1e5"},
+    {seller = "Cherry6Cook1e"},
+    {seller = "BlossomRose204"},
+    {seller = "Buttercup_jelly03"}, 
+    {seller = "AppleCook1e7"},
+    {seller = "StrawberryCook10"},
 }
 
 -- Tên món đồ cần mua
