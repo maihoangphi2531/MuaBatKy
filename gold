@@ -60,6 +60,7 @@ local shopData = {
     {seller = "StrawberryCook10"},
     {seller = "BlackPearlCok1ie4"},
     {seller = "RobinMeyer779"},
+    {seller = "BrookeWade8415"},
 }
 
 -- Tên món đồ cần mua
