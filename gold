@@ -42,6 +42,12 @@ local shopData = {
     {seller = "JieGraham2003"},
     {seller = "HiroshiB3nn3tt2022"},
     {seller = "HiroshiF3lixAri3l28"},
+    {seller = "Ha0Herbert"},
+    {seller = "Henry_Car0l"},
+    {seller = "Heather_Gideon"},
+    {seller = "GertrudeFrancis2015"},
+    {seller = "GREG_Fi0na2022"},
+    {seller = "GeneDorothyAlan2006"},
 }
 
 -- Tên món đồ cần mua
