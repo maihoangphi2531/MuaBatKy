@@ -44,6 +44,7 @@ local shopData = {
     {seller = "GertrudeFrancis2015"},
     {seller = "GREG_Fi0na2022"},
     {seller = "GeneDorothyAlan2006"},
+    {seller = "K0tar0Ava2013"},
 }
 
 -- Tên món đồ cần mua
