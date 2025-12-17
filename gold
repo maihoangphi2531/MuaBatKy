@@ -44,6 +44,10 @@ local shopData = {
     {seller = "GertrudeFrancis2015"},
     {seller = "GREG_Fi0na2022"},
     {seller = "GeneDorothyAlan2006"},
+    {seller = "FredIgorDaria"},
+    {seller = "FumiyaEliseDee47"},
+    {seller = "G3n3vi3v3_Haz3l"},
+    {seller = "FumikoBorisBenjamin"},
     {seller = "K0tar0Ava2013"},
 }
 
