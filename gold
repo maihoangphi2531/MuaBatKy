@@ -48,7 +48,14 @@ local shopData = {
     {seller = "FumiyaEliseDee47"},
     {seller = "G3n3vi3v3_Haz3l"},
     {seller = "FumikoBorisBenjamin"},
-    {seller = "K0tar0Ava2013"},
+    {seller = "ElliotG3n3vi3v322"},
+    {seller = "EricaBiancaIsabel"},
+    {seller = "FelixImogen2007"},
+    {seller = "ElsaDaisyElias"},
+    {seller = "FelixImogen2007"},
+    {seller = "ElsaDaisyElias"},
+    {seller = "Dana_Emily2013"},
+    {seller = "Heather_Gideon"},
 }
 
 -- Tên món đồ cần mua
